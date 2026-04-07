@@ -10,7 +10,7 @@ Glavne funkcionalnosti bodo vključevale:
 * Zapisovanje metapodatkov o fotografiji (uporabljen teleskop, kamera, montaža, čas ekspozicije, filtri).
 * Pregledovanje in branje objav drugih uporabnikov (galerija).
 
-Načrtovana arhitektura:
+## 2. Načrtovana arhitektura:
 
 * **Frontend:** React (za prikaz galerije in interakcijo z uporabnikom).
 * **API Gateway / Proxy:** Nginx (usmerjanje prometa do ustreznih mikrostoritev).
@@ -21,6 +21,9 @@ Načrtovana arhitektura:
 * **Shranjevanje datotek:** S3 API / Min.io instanca (shranjevanje slikovnih datotek).
 * **Centralizirano logiranje:** Grafana in Prometheus.
 
+## 3. Skica arhitekture
+
+```mermaid
 graph TD
     %% Barve in stili
     classDef frontend fill:#61dafb,stroke:#333,stroke-width:2px,color:black;
