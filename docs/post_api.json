@@ -1,0 +1,459 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NUKS projekt - Post Service",
+    "description": "API za objavljanje astrofotografij in pregled galerije",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Osnovno"
+        ],
+        "summary": "Read Root",
+        "description": "Preverjanje, \u010de API deluje.",
+        "operationId": "read_root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts": {
+      "get": {
+        "tags": [
+          "Galerija"
+        ],
+        "summary": "Get All Posts",
+        "description": "Pridobitev seznama vseh astrofotografij za glavno galerijo.",
+        "operationId": "get_all_posts_api_posts_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Galerija"
+        ],
+        "summary": "Create Post",
+        "description": "Ustvarjanje nove objave (samo metapodatki). Sliko se nalo\u017ei lo\u010deno.",
+        "operationId": "create_post_api_posts_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePost"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{post_id}/image": {
+      "post": {
+        "tags": [
+          "Galerija"
+        ],
+        "summary": "Upload Post Image",
+        "description": "Nalaganje slikovne datoteke (.jpg, .png) za obstoje\u010do objavo. Slika se shrani v Min.io (S3).",
+        "operationId": "upload_post_image_api_posts__post_id__image_post",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_post_image_api_posts__post_id__image_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{post_id}": {
+      "get": {
+        "tags": [
+          "Galerija"
+        ],
+        "summary": "Get Post Details",
+        "description": "Pridobitev vseh podrobnosti in metapodatkov posamezne slike.",
+        "operationId": "get_post_details_api_posts__post_id__get",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Galerija"
+        ],
+        "summary": "Delete Post",
+        "description": "Izbris objave (izbri\u0161e metapodatke iz baze in sliko iz Min.io S3).",
+        "operationId": "delete_post_api_posts__post_id__delete",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/posts/{post_id}/comments": {
+      "post": {
+        "tags": [
+          "Komentarji"
+        ],
+        "summary": "Add Comment",
+        "description": "Dodajanje komentarja pod izbrano astrofotografijo (shrani v MongoDB).",
+        "operationId": "add_comment_api_posts__post_id__comments_post",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Komentarji"
+        ],
+        "summary": "Get Comments",
+        "description": "Pridobitev seznama vseh komentarjev za izbrano objavo (iz MongoDB).",
+        "operationId": "get_comments_api_posts__post_id__comments_get",
+        "parameters": [
+          {
+            "name": "post_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Post Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_upload_post_image_api_posts__post_id__image_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_post_image_api_posts__post_id__image_post"
+      },
+      "Comment": {
+        "properties": {
+          "uporabnik_id": {
+            "type": "integer",
+            "title": "Uporabnik Id"
+          },
+          "besedilo": {
+            "type": "string",
+            "title": "Besedilo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uporabnik_id",
+          "besedilo"
+        ],
+        "title": "Comment"
+      },
+      "CreatePost": {
+        "properties": {
+          "naslov": {
+            "type": "string",
+            "title": "Naslov"
+          },
+          "opis": {
+            "type": "string",
+            "title": "Opis"
+          },
+          "metapodatki": {
+            "$ref": "#/components/schemas/PostMetadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "naslov",
+          "opis",
+          "metapodatki"
+        ],
+        "title": "CreatePost"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PostMetadata": {
+        "properties": {
+          "teleskop": {
+            "type": "string",
+            "title": "Teleskop"
+          },
+          "kamera": {
+            "type": "string",
+            "title": "Kamera"
+          },
+          "montaza": {
+            "type": "string",
+            "title": "Montaza"
+          },
+          "cas_ekspozicije": {
+            "type": "string",
+            "title": "Cas Ekspozicije"
+          },
+          "filtri": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filtri"
+          }
+        },
+        "type": "object",
+        "required": [
+          "teleskop",
+          "kamera",
+          "montaza",
+          "cas_ekspozicije"
+        ],
+        "title": "PostMetadata"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
