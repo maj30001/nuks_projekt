@@ -52,3 +52,19 @@ graph TD
     Nginx -.->|Pošiljanje metrik| Prom
     
     Prom --> Grafana[Grafana <br> vizualizacija logov]:::monitoring
+```
+## 4. API Dokumentacija in Mikrostoritve (Mejnik 2)
+Za potrebe aplikacije smo razdelili backend na dve ločeni mikrostoritvi. API dokumentacija se avtomatsko generira ob spremembah in je na voljo v obliki surovega JSON formata ter vizualne HTML predstavitve (ReDoc).
+
+### Segmentacija mikrostoritev:
+
+**1. User Service (Port 8000)**
+Skrbi za avtentikacijo in upravljanje uporabniških profilov.
+* **Vizualna dokumentacija (HTML):** [Odpri docs/user_docs.html](docs/user_docs.html)
+* **Surovi podatki (JSON):** [`docs/user_api.json`](docs/user_api.json)
+
+**2. Post Service (Port 8001)**
+Skrbi za nalaganje astrofotografij (S3), branje galerije in komentiranje.
+* **Vizualna dokumentacija (HTML):** [Odpri docs/post_docs.html](docs/post_docs.html)
+* **Surovi podatki (JSON):** [`docs/post_api.json`](docs/post_api.json)
+    
