@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(
     title="NUKS projekt - User Service", 
     description="API za upravljanje uporabnikov in avtentikacijo",
     version="1.0.0"
 )
+
+Instrumentator().instrument(app).expose(app)
 
 # Definicija podatkovnih modelov
 class UserRegister(BaseModel):
