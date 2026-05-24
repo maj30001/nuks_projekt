@@ -1,0 +1,15 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Kopiramo zahtevane knjižnice in jih namestimo
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Kopiramo kodo za user service
+COPY user_service.py .
+
+EXPOSE 8000
+
+# Zagon storitve (host mora biti 0.0.0.0, da je dosegljiv izven kontejnerja)
+CMD ["uvicorn", "user_service:app", "--host", "0.0.0.0", "--port", "8000"]
