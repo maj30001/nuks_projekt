@@ -10,7 +10,7 @@ function App() {
   const [uporabnik, setUporabnik] = useState(localStorage.getItem('username') || null)
   const [authNačin, setAuthNačin] = useState('login')
 
-  // Stanja za prijavo / registracijo
+  // Stanja za prijavo
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -218,7 +218,7 @@ function App() {
               <button onClick={handleOdjava} style={{ padding: '10px 15px', cursor: 'pointer', background: '#e74c3c', color: 'white', border: 'none', borderRadius: '5px' }}>Odjava</button>
             </div>
           ) : (
-            <button onClick={() => setAktivniZavihek('auth')} style={{ padding: '10px 20px', cursor: 'pointer', background: aktivniZavihek === 'auth' ? '#3498db' : '#2c3e50', color: 'white', border: 'none', borderRadius: '5px', marginLeft: '10px' }}>Login / Registracija</button>
+            <button onClick={() => setAktivniZavihek('auth')} style={{ padding: '10px 20px', cursor: 'pointer', background: aktivniZavihek === 'auth' ? '#3498db' : '#2c3e50', color: 'white', border: 'none', borderRadius: '5px', marginLeft: '10px' }}>Prijava / Registracija</button>
           )}
         </nav>
       </header>
