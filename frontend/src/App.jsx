@@ -299,7 +299,7 @@ function App() {
       {aktivniZavihek === 'auth' && (
         <div style={{ background: '#2c3e50', padding: '30px', borderRadius: '8px', maxWidth: '400px', margin: '40px auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px', borderBottom: '1px solid #34495e', paddingBottom: '10px' }}>
-            <span onClick={() => { setAuthNačin('login'); setAuthStatus(''); }} style={{ cursor: 'pointer', fontWeight: 'bold', color: authNačin === 'login' ? '#3498db' : '#bdc3c7' }}>Prijava</span>
+            <span onClick={() => { setAuthNačin('login'); setAuthStatus(''); }} style={{ cursor: 'pointer', fontWeight: 'bold', color: authNačin === 'login' ? '#3498db' : '#bdc3c7' }}>Login</span>
             <span onClick={() => { setAuthNačin('register'); setAuthStatus(''); }} style={{ cursor: 'pointer', fontWeight: 'bold', color: authNačin === 'register' ? '#3498db' : '#bdc3c7' }}>Registracija</span>
           </div>
 
