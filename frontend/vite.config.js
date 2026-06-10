@@ -1,17 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      // Vse klice, ki se začnejo z /api, preusmeri na naš Docker Nginx
-      '/api': {
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-        secure: false,
-      }
-    }
+    host: '0.0.0.0',
+    port: 5173,
+    // NOVO: Dovolimo zunanje domene (kot je nuks.v4.si), da nemoteno komunicirajo z Vite-om
+    allowedHosts: true 
   }
 })

@@ -4,9 +4,11 @@ services:
   api-gateway:
     image: nginx:alpine
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt:ro
     depends_on:
       - user-service
       - post-service
@@ -64,6 +66,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
 
   prometheus:
     image: prom/prometheus:latest
@@ -84,7 +88,10 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
 
 volumes:
   postgres_data:
   mongo_data:
+  grafana_data:

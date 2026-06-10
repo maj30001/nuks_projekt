@@ -8,12 +8,15 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Optional, List
 from PIL import Image
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(
     title="DarkFrame - Post Service", 
     description="API za objavljanje astrofotografij s trajnim shranjevanjem v MongoDB in S3",
     version="2.0.0"
 )
+
+Instrumentator().instrument(app).expose(app)
 
 # --- S3 (Min.io) Konfiguracija ---
 S3_ENDPOINT = os.getenv("S3_ENDPOINT", "http://212.235.185.13:9000")
